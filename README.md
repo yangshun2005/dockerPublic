@@ -1,7 +1,9 @@
 # dockerPublic
 dockerHub
+
 一、docker_public的全部说明；
-二、docker_public内部的各种应用简要介绍、完整说明和主要目录树
+
+二、docker_public内部的各种应用简要介绍、完整说明和主要目录树；
 
 三、docker主要指令
 1. 查看docker信息（version、info）
@@ -92,4 +94,3 @@ $docker push new_image_name
       --rm=true Remove intermediate containers after a successful build  
       -t, --tag="" Repository name (and optionally a tag) to be applied to the resulting image in case of success  
 $docker build -t image_name Dockerfile_path  
-
