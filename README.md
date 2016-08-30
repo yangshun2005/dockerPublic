@@ -22,6 +22,8 @@ $docker pull image_name
 $docker rmi image_name  
 #显示一个镜像的历史; --no-trunc=false Don't truncate output; -q, --quiet=false Only show numeric IDs  
 $docker history image_name  
+#利用下载的包 创建镜像:  
+cat centos-6-x86.tar.gz | docker import - centos-6-x86-64(名字自己定义)  
 
 3启动容器（run）
 #在容器中运行"echo"命令，输出"hello word"  
