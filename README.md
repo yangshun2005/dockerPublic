@@ -1,9 +1,9 @@
 # dockerPublic
 dockerHub
-1、docker_public的全部说明；
-2、docker_public内部的各种应用简要介绍、完整说明和主要目录树
+一、docker_public的全部说明；
+二、docker_public内部的各种应用简要介绍、完整说明和主要目录树
 
-3、docker主要指令
+三、docker主要指令
 1. 查看docker信息（version、info）
 # 查看docker版本  
 $docker version  
