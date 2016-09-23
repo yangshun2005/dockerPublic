@@ -1,4 +1,4 @@
-﻿docker的使用：
+docker的使用：
 ----------------------------------------------------------------------
 永久关闭selinux,可以修改配置文件/etc/selinux/config,将其中SELINUX设置为disabled  
 
@@ -497,5 +497,38 @@ iptables -t filter   -A{I,D}        INPUT{OUTPUT,FORWARD}   {n}    -p tcp{udp,ic
 service iptables save  #保存iptables的修改
 
 iptables -L -n --line-numbers  #显示防火墙规则，包括行号
+
+-------------------------------------------------------------------
+【初级版：docker-deamone自定义制作镜像、存出、导入、生成nginx，下面使用的是c7-mini的gz源】
+#把tar.gz文件转成images
+cat centos-7-x86_mini.tar.gz | docker import - centos-7-x86_mini
+【注意】c7只能c7的container，
+#生成、启动并进入container，做好80,443的端口出主机的映射
+docker run -it -p 80:80 -p 443:443 <c7/imagesID> /bin/bash
+#安装nginx的依赖包
+#yum install -y gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
+#安装nginx【源码安装】,并浏览器测试页面能打开否
+wget http://nginx.org/download/nginx-1.11.3.tar.gz
+tar zxvf nginx-1.11.3.tar.gz
+cd nginx-1.11.3
+mkdir /usr/local/nginx
+chmod 777 /usr/local/nginx/ 
+./configure --prefix=/usr/local/nginx
+make && make install
+cd /usr/local/nginx 
+#生成新的镜像
+docker commit <containerID> <imagesNAME>
+#存出新生成的镜像
+docker save <imagesNAME> > <imagesName.tar>
+#移到其他物理空间里
+sz <imagesName.tar>
+#tar文件到镜像
+docker load < <imagesName.tar>
+#查看镜像生成情况
+docker images
+
+
+
+
 
 
