@@ -1,5 +1,5 @@
 
-## pls read `InstallKubeadm163.md`
+## pls read [`InstallKubeadm163.md`](./InstallKubeadm163.md)
 
 
 ```
