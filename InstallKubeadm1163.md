@@ -70,7 +70,7 @@
 `注意事项：`
 kubeadm 的证书有效期是一年，在一年内执行任意一次更新集群命令就可与再次刷新证书为一年时间，如果想改成永久，可与网上查找修改 kubeadm 源码方法，手动编译，然后执行创建 kubernetes 集群操作。
 
-## 一、更新系统内核（全部节点）
+## 一、更新系统内核（`全部节点`）
 由于 Docker 对系统内核有一定的要求，所以我们最好使用 yum 来更新系统软件及其内核。
 #### 备份本地 yum 源
 ```
@@ -92,7 +92,7 @@ $ yum clean all
 $ yum -y update
 ```
 
-## 二、基础环境设置（全部节点）
+## 二、基础环境设置（`全部节点`）
 Kubernetes 需要一定的环境来保证正常运行，如各个节点时间同步，主机名称解析，关闭防火墙等等。
 
 #### 1、修改 Host
@@ -236,7 +236,7 @@ $ yum install -y epel-release
 $ yum install -y yum-utils device-mapper-persistent-data lvm2 net-tools conntrack-tools wget vim ntpdate libseccomp libtool-ltdl
 ```
 
-## 三、安装Docker（全部节点）
+## 三、安装Docker（`全部节点`）
 #### 1、移除之前安装过的Docker
 ```
 $ sudo yum -y remove docker \
@@ -357,7 +357,7 @@ $ systemctl daemon-reload
 $ systemctl restart docker
 ```
 
-## 四、安装 kubelet、kubectl、kubeadm（全部节点）
+## 四、安装 kubelet、kubectl、kubeadm（`全部节点`）
 >> 实际kubeadm是init k8s master的核心组件编译和安装
 
 #### 1、配置可用的国内 yum 源
@@ -400,13 +400,13 @@ $ systemctl start kubelet && systemctl enable kubelet
 
 >> 检查状态时会发现 kubelet 是 failed 状态，等初 master 节点初始化完成后即可显示正常。
 
-## 五、重启服务器（全部节点）
+## 五、重启服务器（`全部节点`）
 为了防止发生某些未知错误，这里我们重启下服务器，方便进行后续操作
 ```
 $ reboot
 ```
 
-## 六、kubeadm 安装 kubernetes（Master 节点）
+## 六、kubeadm 安装 kubernetes（`Master 节点`）
 创建 kubeadm 配置文件 kubeadm-config.yaml，然后需要配置一些参数：
 •   配置 localAPIEndpoint.advertiseAddress 参数，调整为你的 Master 服务器地址。
 •   配置 imageRepository 参数，调整 kubernetes 镜像下载地址为阿里云。
@@ -474,14 +474,14 @@ $ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 $ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-#### 七、工作节点加入集群（Work Node 节点）
+#### 七、工作节点加入集群（`Work Node 节点`）
 根据上面 Master 节点创建 Kubernetes 集群时的日志信息，可以知道在各个节点上执行下面命令来让工作节点加入主节点：
 ```
 $ kubeadm join 192.168.2.11:6443 --token 4udy8a.f77ai0zun477kx0p \
     --discovery-token-ca-cert-hash sha256:4645472f24b438e0ecf5964b6dcd64913f68e0f9f7458768cfb96a9ab16b4212
 ```
 
-#### 八、部署网络插件（Master 节点）
+#### 八、部署网络插件（`Master 节点`）
 Kubernetes 中可以部署很多种网络插件，不过比较流行也推荐的有两种：
 •   `Flannel`： Flannel 是基于 Overlay 网络模型的网络插件，能够方便部署，一般部署后只要不出问题，一般不需要管它。
 •   `Calico`： 与 Flannel 不同，Calico 是一个三层的数据中心网络方案，使用 BGP 路由协议在主机之间路由数据包，可以灵活配置网络策略。
@@ -521,7 +521,7 @@ kube-scheduler-k8s-master                  1/1     Running   0          20m
 
 可以看到所以 Pod 都已经成功启动。
 
-## 九、配置 Kubectl 命令自动补全（Master 节点）
+## 九、配置 Kubectl 命令自动补全（`Master 节点`）
 ```
 $ yum install -y bash-completion
 ```
@@ -533,7 +533,7 @@ $ echo "source <(kubectl completion bash)" >> ~/.bashrc
 ```
 添加完成就可与通过输入 kubectl 后，按补全键（一般为 tab）会自动补全对应的命令。
 
-## 十、查看是否开启 IPVS（Master 节点）
+## 十、查看是否开启 IPVS（`Master 节点`）
 上面全部组件都已经部署完成，不过还需要确认是否成功将网络模式设置为 IPVS，可以查看 kube-proxy 日志，在日志信息中查找是否存在 IPVS 关键字信息来确认。
 ```
 $ kubectl get pod -n kube-system | grep kube-proxy
